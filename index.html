@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>WEATHER FORECAST</title>
+</head>
+<style type="text/css">
+	body{
+		background: url("clear.jpg");
+		background-repeat: no-repeat;
+		background-size:cover ;
+		transition: background-image 0.5s ease-out;
+	}
+	.main{
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		width: 50%;
+		height: 300px;
+		color: black;
+		position: absolute;
+
+	}
+	input{
+		
+		
+		
+	}
+	.edit{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	.overlay{
+		position: absolute;
+		transition: all 0.4s;
+		opacity: 0;
+		background-color: white;
+		border-radius: 30px;
+	}
+	.overlay div{
+		/*position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);*/
+		margin: 15px 0px 0px 25%;
+		padding: 10px;
+		text-align: center;	
+		width: 50%;	
+	}
+	*{
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+	.overlayleft{
+		width: 0;
+		height: 100%;
+		top: 0;
+		left: 0;
+		}
+		.hide{
+			opacity: 0;
+		}
+		.aoverlay{
+			width: 100%
+						}
+
+						.city{
+							font-size: 50px;
+							font-style: bold;
+						}
+						.desc{
+							font-size: 35px;
+							border: 2px yellow dashed;
+							
+						}
+						.temp{
+							font-size: 30px;
+						}
+.rotate{
+	transform: rotateZ(360deg);
+}
+
+		
+</style>
+<body>
+<div class="main">
+	<div class="edit">
+	<input type="text" placeholder="Enter City" id="name">
+	<button class="submit">SUBMIT</button></div>
+	<div class="overlay overlayleft">
+		<div class="city"></div>
+		<div class="desc"></div>
+		<div class="temp"></div>
+	</div>
+</div>
+</body>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script type="text/javascript">
+	var main=document.querySelector('.overlay');
+	var sub=document.querySelector('button');
+	var desc=document.querySelector('.desc');
+	var temp=document.querySelector('.temp');
+	var back=document.querySelector('body');
+	var edit=document.querySelector('.edit');
+
+	document.querySelector('.submit').addEventListener('click',update);
+
+	function update(){
+		var city=document.querySelector('#name').value;
+	
+		$.getJSON("http://api.openweathermap.org/data/2.5/weather?q="+city+"&units=metric&APPID=31c7c9afc1f4c4999172864591f065d3",function(data){
+
+			console.log(data);
+
+			main.classList.add('aoverlay');
+			main.classList.add('rotate');
+			main.style.setProperty("opacity",0.6);
+			desc.textContent=data.weather[0].main;
+			temp.textContent=data.main.temp;
+			
+			edit.style.setProperty("opacity",0);
+
+			var type=data.weather[0].main+".jpg";
+			console.log(type);
+			document.body.style.backgroundImage = 'url('+type+')';
+
+			if(!data){window.alert("Not Found!");}
+			
+				document.querySelector('.city').textContent=city;
+			
+			
+			
+					
+	});
+	};
+	
+</script>
+</html>
