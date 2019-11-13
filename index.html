@@ -3,27 +3,36 @@
 <head>
 	<title>WEATHER FORECAST</title>
 </head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style type="text/css">
 	body{
-		background: url("Clear.jpg");
-		background-repeat: no-repeat;
-		background-size:cover ;
 		transition: background-image 0.5s ease-out;
+		overflow-x: hidden;
 	}
 	.main{
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%,-50%);
-		width: 50%;
-		height: 300px;
+		background: url(clear.jpg);
+		height: 100vh;
+		width: 100vw;
 		color: black;
-		position: absolute;
+		background-size: cover;
+		border:2px solid black;
+		position: relative;
 
 	}
 	input{
-		
-		
-		
+		position: absolute;
+		top: 40%;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 180px;
+		height: 40px;
+		background: none;
+		border-radius:40px;
+		padding-left: 12px;
+		color: black;
+		font-size: 20px;
+		font-style: normal;
+		font-weight: 800;
 	}
 	.edit{
 		display: flex;
@@ -81,14 +90,127 @@
 .rotate{
 	transform: rotateZ(360deg);
 }
+a.submit{
+	cursor: pointer;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translateX(-50%);
+	box-shadow: 0 20px 50px rgba(0,0,0,.5);
+	padding: 15px 30px;
+	font-size: 20px;
+	overflow: hidden;
+}
+.button{
+	position: relative;
+	margin-top: 150px;
 
-		
+
+}
+
+a.submit::before{
+	content: '';
+	width: 50%;
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	bottom: 2px;
+	background: rgba(255,255,255,0.5);
+}
+
+
+
+a span:nth-child(1){
+	height: 2px;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	animation: animate1 2s linear infinite;
+	background: linear-gradient(to left,#0c002b,#1779ff);
+}
+@keyframes animate1{
+	0%{
+		transform: translateX(-100%);
+	}
+	100%{
+		transform: translateX(100%);
+	}
+}
+@keyframes animate2{
+	0%{
+		transform: translateY(-100%);
+	}
+	100%{
+		transform: translateY(100%);
+	}
+}
+@keyframes animate3{
+	0%{
+		transform: translateX(100%);
+	}
+	100%{
+		transform: translateX(-100%);
+	}
+}
+@keyframes animate4{
+	0%{
+		transform: translateY(100%);
+	}
+	100%{
+		transform: translateY(-100%);
+	}
+}
+
+
+a span:nth-child(2){
+	height: 100%;
+	width: 2px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	background: linear-gradient(to top,#0c002b,#1779ff);
+
+	animation: animate2 2s linear infinite;
+	animation-delay: 1s;
+}
+a span:nth-child(3){
+	height: 100%;
+	width: 2px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: linear-gradient(to bottom,#0c002b,#1779ff);
+	animation: animate4 2s linear infinite;
+	animation-delay: 1s;
+}
+a span:nth-child(4){
+	height: 2px;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	background: linear-gradient(to right,#0c002b,#1779ff);
+	animation: animate3 2s linear infinite;
+}
+
+@media (max-width: 767px){
+
+}
+				
 </style>
 <body>
 <div class="main">
 	<div class="edit">
 	<input type="text" placeholder="Enter City" id="name">
-	<button class="submit">SUBMIT</button></div>
+	
+		<a class="submit">
+			<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		SUBMIT</a></div>
 	<div class="overlay overlayleft">
 		<div class="city"></div>
 		<div class="desc"></div>
@@ -114,7 +236,8 @@
 		var city=document.querySelector('#name').value;
 	
 		$.getJSON("http://api.openweathermap.org/data/2.5/weather?q="+city+"&units=metric&APPID=31c7c9afc1f4c4999172864591f065d3",function(data){
-
+			
+			if(!data){window.alert("Not Found!");}
 			console.log(data);
 
 			main.classList.add('aoverlay');
@@ -127,9 +250,8 @@
 
 			var type=data.weather[0].main+".jpg";
 			console.log(type);
-			document.body.style.backgroundImage = 'url('+type+')';
+			document.querySelector('.main').style.backgroundImage = 'url('+type+')';
 
-			if(!data){window.alert("Not Found!");}
 			
 				document.querySelector('.city').textContent=city;
 			
